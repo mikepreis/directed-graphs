@@ -1,6 +1,59 @@
+import sun.awt.image.ImageWatched;
+
 import java.util.LinkedList;
 
 class DiGraph {
+
+    private class VertexInfo {
+
+        int lengthOfPath;
+        int predecessor;
+
+        public VertexInfo(int l, int p) {
+            lengthOfPath = l;
+            predecessor = p;
+        }
+
+    }
+
+    private VertexInfo[] BFS(int s) {
+        int n = adjacencyList.length;
+        VertexInfo[] vertexInfoObjects = new VertexInfo[n];
+        for (int u = 0; u < n; u++) {
+            vertexInfoObjects[u].lengthOfPath  = -1;
+            vertexInfoObjects[u].predecessor = -1;
+        }
+        vertexInfoObjects[s].lengthOfPath = 0;
+        LinkedList<Integer> queue = new LinkedList<Integer>();
+        queue.addLast(s);
+        while( !queue.isEmpty() ) {
+            int k = queue.removeFirst();
+            for (int v = 0; v < adjacencyList[k].size(); v++) {
+               if (vertexInfoObjects[v].lengthOfPath == -1) {
+                   vertexInfoObjects[v].lengthOfPath = vertexInfoObjects[k].lengthOfPath + 1;
+                   vertexInfoObjects[v].predecessor = k;
+                   queue.addLast(v);
+               }
+            }
+        }
+        return vertexInfoObjects;
+    }
+
+
+    private class TreeNode {
+
+        int vertexNumber;
+        LinkedList<TreeNode> vertexChildren;
+
+        public TreeNode(int vNum, LinkedList<TreeNode> vChildren)  {
+
+            vertexNumber = vNum;
+            vertexChildren = vChildren;
+
+        }
+
+    }
+
 
     private LinkedList [] adjacencyList;
 
