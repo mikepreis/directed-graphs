@@ -4,7 +4,7 @@ class DiGraph {
 
     //Part 1 of 4
 
-    //a 
+    //a
     private LinkedList[] adjacencyList;
 
     //b
@@ -118,8 +118,9 @@ class DiGraph {
         return result;
     }
 
+    //Part 3 of 4
 
-
+    //a
     private class VertexInfo {
 
         int lengthOfPath;
@@ -131,6 +132,7 @@ class DiGraph {
         }
     }
 
+    //b
     private VertexInfo[] BFS(int s) {
 
         int n = adjacencyList.length;
@@ -156,8 +158,7 @@ class DiGraph {
             for (int v = 0; v < adjacencyList[k-1].size(); v++) {
 
                 Integer value = Integer.parseInt(adjacencyList[k-1].get(v).toString());
-                //value is natural indexed (name of the node)
-                //k is natural indexed name of first node.
+
                 if (vertexInfoObjects[value-1].lengthOfPath == -1) {
 
                     vertexInfoObjects[value - 1].lengthOfPath = vertexInfoObjects[k -1].lengthOfPath + 1;
@@ -168,46 +169,34 @@ class DiGraph {
                 }
             }
         }
+
         return vertexInfoObjects;
+
     }
 
+    //c
     public boolean isTherePath(int from, int to) {
+
         VertexInfo [] resultFromBFS = BFS(from);
+
         return resultFromBFS[to-1].predecessor == -1 ? false : true;
+
     }
 
+    //d
     public int lengthOfPath(int from, int to) {
+
         VertexInfo [] resultFromBFS = BFS(from);
+
         return resultFromBFS[to-1].lengthOfPath;
-    }
-
-
-
-    private class TreeNode {
-
-        int vertexNumber;
-        LinkedList<TreeNode> vertexChildren = new LinkedList<TreeNode>();
-
-        public TreeNode(int vNum, LinkedList<TreeNode> vChildren) {
-
-            vertexNumber = vNum;
-            vertexChildren = vChildren;
-
-        }
-
 
     }
-
-
 
     private boolean isValid(int vertex) {
         return (vertex >= 0 && vertex <= adjacencyList.length);
     }
 
-
-
-
-
+    //e
     public void printPath(int from, int to){
         if(!(isTherePath(from, to))){
             System.out.print("There is no path");
@@ -223,8 +212,6 @@ class DiGraph {
             System.out.println(output);
         }
     }
-
-
 
     public void printTopSort(int[] arr) {
 
@@ -259,22 +246,48 @@ class DiGraph {
             }
         }
         return arrayTreeNodes[s-1];
+
+    }
+
+    private static String getSpaces(int i) {
+        String s = "";
+        while(i-- > 0) {
+            s += "   ";
+        }
+
+        return s;
     }
 
 
+    private class TreeNode {
+
+        int vertexNumber;
+        LinkedList<TreeNode> vertexChildren = new LinkedList<TreeNode>();
+
+
+        public TreeNode(int vNum, LinkedList<TreeNode> vChildren) {
+
+            vertexNumber = vNum;
+            vertexChildren = vChildren;
+
+        }
+    }
+
 
     public void printTree(int s) {
-
-        //make root
         TreeNode root = buildTree(s);
-        //check if root has children
-        System.out.println(root.vertexNumber);
-        //if the root does not have children,
-        String space = "    ";
-        for(TreeNode child: root.vertexChildren){
-            System.out.print(space);
-            space = space + "a";
-            printTree(child.vertexNumber);
+        int level = 0;
+        System.out.println(getSpaces(level) + root.vertexNumber);
+        for(TreeNode child : root.vertexChildren) {
+            printTree2_worker(child, level);
+        }
+    }
+
+    private void printTree2_worker(TreeNode child, int level) {
+        level +=1;
+        System.out.println(getSpaces(level) + child.vertexNumber);
+        for(TreeNode grandkid: child.vertexChildren) {
+            printTree2_worker(grandkid, level);
         }
     }
 

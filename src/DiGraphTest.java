@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-class Main {
+class DiGraphTest {
 
     public static void main(String [] args) {
 
@@ -101,6 +101,7 @@ class Main {
                     int source = in.nextInt();
                     in.nextLine();
                     g.printTree(source);
+                    break;
                 default:
                     System.out.println("Not a valid entry");
                     break;
